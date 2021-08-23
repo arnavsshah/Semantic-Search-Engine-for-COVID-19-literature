@@ -11,7 +11,7 @@
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <title>Hello, world!</title>
+  <title>CORD-19</title>
 </head>
 
 <body style="background-color: #d3e3f0;">
@@ -34,7 +34,7 @@
   </nav>
   <div class="container">
     <div class="row justify-content-md-center">
-      <img src="{{url_for('static', filename='scholar_logo_64dp.png')}}" class="img-fluid" alt="Responsive image"
+      <img src="{{url_for('static', filename='logo3.jpg')}}" class="img-fluid" alt="Responsive image"
         style="max-width: 40%; margin-top: 30px;">
     </div>
   </div>
@@ -46,7 +46,7 @@
         <div class="col-md-12">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <button class="btn btn-primary  dropdown-toggle btn-lg" type="button" data-toggle="dropdown"
+              <button style="border-radius: 50px  0px 0px 50px;" class="btn btn-primary  dropdown-toggle btn-lg" type="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">Dropdown</button>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="#">Action</a>
@@ -56,11 +56,16 @@
                 <a class="dropdown-item" href="#">Separated link</a>
               </div>
             </div>
-            <input type="text" name="searchdata" class="form-control" aria-label="Text input with dropdown button">
+            <input type="text" style="border-radius: 0px  0px 0px 0px;" name="searchdata" class="form-control" aria-label="Text input with dropdown button">
+            <button type="submit" id="search-button" style="border-radius: 0px  50px 50px 0px; width:70px;" type="button" class="btn btn-primary">
+              <span class="material-icons">
+                search
+              </span>
+            </button>
           </div>
 
         </div>
-        <button class="btn btn-primary" style="
+        <!-- <button class="btn btn-primary" style="
         border: none;
         color: white;
         padding: 20px;
@@ -73,7 +78,7 @@
           <span class="material-icons">
             search
           </span>
-        </button>
+        </button> -->
 
       </div>
     </form>
@@ -85,11 +90,14 @@
   <div class="container">
     {%for paper in papers%}
     <div class="card" style="margin-top:30px">
-      <h5 class="card-header">{{paper.title}}</h5>
+      <h5 class="card-header">{{ paper[1] }}</h5> 
       <div class="card-body">
-        <h5 class="card-title">{{paper.authors}}</h5>
-        <p class="card-text">{{paper.abstract}}</p>
-        <a href="#" class="btn btn-primary">{{paper.link}}</a>
+        <h5 class="card-title">{{ paper[7] }}</h5>
+        <p class="card-text">{{ paper[5][:400] }}...</p>
+        <p style="float: right;" class="card-text"><i><b>{{ paper[-4] }}</b>, {{ paper[6] }}</i></p>
+        <p style="float: left;" class="card-text">DOI: <b>{{ paper[2] }}</b></p>
+        <div style="clear: both;"><a href={{paper[-2]}} class="btn btn-primary">Paper</a></div>
+        
       </div>
     </div>
     {% endfor %}

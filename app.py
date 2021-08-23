@@ -1,39 +1,25 @@
 from flask import Flask, render_template, request
-# import semantic_search
+import json
+import semantic_search
 
 app = Flask(__name__)
 
-@app.route("/search", methods=["POST","GET"])
+@app.route("/search", methods=["GET"])
 def search():
-    print(request.args.get("searchdata"))
-    # res = semantic_search.search(("what is the cause of diseases?"))
-    # print(res)
-    data = [
-      {
-         "title":"hello1",
-         "abstract":"hello1",
-         "link":"hello1",
-         "authors":" hello1"
-      },
-      {
-         "title":"hello2",
-         "abstract":"hello2",
-         "link":"hello2",
-         "authors":" hello2"
-      },
-      {
-         "title":"hello3",
-         "abstract":"hello3",
-         "link":"hello3",
-         "authors":" hello3"
-      },
-      {
-         "title":"hello4",
-         "abstract":"hello4",
-         "link":"hello4",
-         "authors":"hello4"
-         }]
-    return render_template("search.html",papers=data)
+   #  print(request.args.get("searchdata"))
+   query = request.args.get("searchdata")
+   if query is not None :
+      df_res = semantic_search.search(request.args.get("searchdata"))
+      json_res = df_res.to_json(orient="split")
+      search_results = json.loads(json_res)
+   
+#  "columns": [ "cord_uid", "title", "doi", "pubmed_id", "license", 
+#               "abstract", "publish_time", "authors", "journal", "pdf_json_files", "url", "body_text"]
+
+      return render_template("search.html", papers=search_results["data"], columns=search_results["columns"])
+   
+   else :
+       return render_template("search.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
