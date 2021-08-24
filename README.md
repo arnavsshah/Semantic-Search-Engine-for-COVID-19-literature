@@ -1,4 +1,7 @@
 # Search-Engine-for-COVID-19-literature
+
+![CORD-19 Search](static/logo3.jpg)
+
 A <b>Semantic Search Engine</b> for research papers on COVID-19 in various categories such as <b>symptoms, influential factors, similar diseases and viruses</b> etc. 
 <br>
 This is a solution to the CORD-19 challenge on Kaggle. The dataset was created in response to the COVID-19 pandemic containing over 500,000 scholarly articles, including over 200,000 with full text about COVID-19, SARS-CoV-2, and related coronaviruses. 
@@ -20,7 +23,7 @@ To generate sentence embeddings, we use the <b>BioBERT model</b> - a pre-trained
 The model can be found <a href="https://huggingface.co/gsarti/biobert-nli">here</a> and the corresponding paper <a href="https://arxiv.org/abs/1901.08746">here</a>.
 We use the <a href="https://github.com/UKPLab/sentence-transformers/">Sentence Transformers: Multilingual Sentence, Paragraph, and Image Embeddings using BERT & Co.</a> framework to load the BioBERT model. 
 
-The main issue that decreases the efficiency of search engines is the time taken to compute the similarity scores of the entire dataset with respect to the query. To overcome this issue, we use <a href="https://github.com/facebookresearch/faiss">Faiss</a>, a library for efficient similarity search and clustering of dense vectors. It contains algorithms that search in sets of vectors of any size, up to the ones that possibly do not fit in the RAM. It builds an index over the entire dataset and efficiently returns the top 'n' results with respect to the input query. 
+The main issue that decreases the efficiency of search engines is the time taken to compute the similarity scores of the entire dataset with respect to the query. To overcome this issue, we use <a href="https://github.com/facebookresearch/faiss">Faiss</a>, a library for efficient similarity search and clustering of dense vectors. It contains algorithms that search in sets of vectors of any size, up to the ones that possibly do not fit in the RAM. It builds an index over the entire dataset and efficiently returns the top 'n' results. 
 
 
 
