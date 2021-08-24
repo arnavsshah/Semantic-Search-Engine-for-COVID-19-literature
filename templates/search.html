@@ -11,6 +11,7 @@
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
   <title>CORD-19</title>
 </head>
 
@@ -46,17 +47,13 @@
         <div class="col-md-12">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <button style="border-radius: 50px  0px 0px 50px;" class="btn btn-primary  dropdown-toggle btn-lg" type="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">Dropdown</button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-              </div>
+              <select name="category" class="form-select bg-primary text-white" style="padding-left: 10px;font-size:18px; border-radius: 50px  0px 0px 50px; width:135px; border-style: none;" aria-label="Search">
+                <option value="papers">Publications</option>
+                <option value="symptoms">Symptoms</option>
+                <option value="factors">Factors</option>
+              </select> 
             </div>
-            <input type="text" style="border-radius: 0px  0px 0px 0px;" name="searchdata" class="form-control" aria-label="Text input with dropdown button">
+            <input id="search" type="text" placeholder="Search..." style="border-radius: 0px  0px 0px 0px;" name="searchdata" class="form-control" aria-label="Text input with dropdown button">
             <button type="submit" id="search-button" style="border-radius: 0px  50px 50px 0px; width:70px;" type="button" class="btn btn-primary">
               <span class="material-icons">
                 search
@@ -88,19 +85,67 @@
 
   </div>
   <div class="container">
-    {%for paper in papers%}
-    <div class="card" style="margin-top:30px">
-      <h5 class="card-header">{{ paper[1] }}</h5> 
-      <div class="card-body">
-        <h5 class="card-title">{{ paper[7] }}</h5>
-        <p class="card-text">{{ paper[5][:400] }}...</p>
-        <p style="float: right;" class="card-text"><i><b>{{ paper[-4] }}</b>, {{ paper[6] }}</i></p>
-        <p style="float: left;" class="card-text">DOI: <b>{{ paper[2] }}</b></p>
-        <div style="clear: both;"><a href={{paper[-2]}} class="btn btn-primary">Paper</a></div>
-        
+    {%if category == 'papers'%}
+      {%for paper in papers%}
+      <div class="card" style="margin-top:30px">
+        <h5 class="card-header">{{ paper[1] }}</h5> 
+        <div class="card-body">
+          <h5 class="card-title">{{ paper[7] }}</h5>
+          <p class="card-text">{{ paper[5][:400] }}...</p>
+          <p style="float: right;" class="card-text"><i><b>{{ paper[-4] }}</b></i>, {{ paper[6] }}</p>
+          <p style="float: left;" class="card-text">DOI: <b>{{ paper[2] }}</b></p>
+          <div style="clear: both;"><a href={{paper[-2]}} class="btn btn-primary">Paper</a></div>
+        </div>
       </div>
-    </div>
-    {% endfor %}
+      {% endfor %}
+
+    {% elif category == 'symptoms' %}
+      {%for paper in papers%}
+      <div class="card" style="margin-top:30px">
+        <h5 class="card-header">{{ paper[1] }}</h5> 
+        <div class="card-body">
+
+          {% if paper[4] == '-' %}
+            <p class="card-text"><b>Excerpt available in the link provided below.</b></p>
+          {% else %}
+            <p class="card-text">{{ paper[4] }}</p>
+          {% endif %}
+
+          {% if paper[-1] == None %}
+            <p  style="float: right;" class="card-text"><i><b>{{ paper[3] }}</b></i></p>
+          {% else %}
+            <p  style="float: right;" class="card-text"><i><b>{{ paper[3] }}</b></i>, {{ paper[-1] }}</p>
+          {% endif %}
+
+          <div style="float: left;"><a href={{paper[2]}} class="btn btn-primary">Study</a></div>
+        </div>
+      </div>
+      {% endfor %}
+
+    {% elif category == 'factors' %}
+      {%for paper in papers%}
+      <div class="card" style="margin-top:30px">
+        <h5 class="card-header">{{ paper[1] }}</h5> 
+        <div class="card-body">
+          <h5 class="card-title">{{ paper[4] }}</h5>
+          {% if paper[5] == '-' %}
+            <p class="card-text"><b>Excerpt available in the link provided below.</b></p>
+          {% else %}
+            <p class="card-text">{{ paper[5] }}</p>
+          {% endif %}
+          <p style="float: left;" class="card-text">{{ paper[-2] }}</p>
+
+          {% if paper[-1] == None %}
+            <p  style="float: right;" class="card-text"><i><b>{{ paper[3] }}</b></i></p>
+          {% else %}
+            <p style="float: right;" class="card-text"><i><b>{{ paper[3] }}</b></i>, {{ paper[-1] }}</p>
+          {% endif %}
+          
+          <div style="clear: both;"><a href={{paper[2]}} class="btn btn-primary">Study</a></div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
   </div>
 
 
